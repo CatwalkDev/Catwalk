@@ -22,8 +22,8 @@ You can right click the cat icon for additional sound options:
 Download the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
 and drag **Catwalk** to your Applications folder. (macOS 13+, Apple Silicon or Intel.)
 
-> On first launch macOS may say it's from an unidentified developer. Right-click the app →
-> **Open** → **Open**.
+On first launch macOS will say Catwalk is from an unidentified developer, and block you from opening it.
+Instructions on how to open it anyways are [here](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
 > Accessibility permission is used for blocking the keyboard and mouse input only.
 
 ## Build from source
