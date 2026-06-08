@@ -1,0 +1,11 @@
+# Build output
+Catwalk.app/
+*.app
+*.app.zip
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc

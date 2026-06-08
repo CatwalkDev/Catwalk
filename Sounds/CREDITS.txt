@@ -1,0 +1,17 @@
+Catwalk — bundled sound credits
+================================
+
+Keyboard Taps:
+  "Typing on Keychron V1 Ultra (Red Linear Switch)"
+  Wikimedia Commons — CC BY 4.0 — © PantheraLeo1359531
+  Sliced into individual key taps (see fetch_clicks.py).
+
+Purr & Hiss:
+  Procedurally generated (see generate_sounds.py) — CC0 / public domain.
+
+Bloop:
+  Plays the macOS system sound "Tink" at runtime (not redistributed).
+
+--------------------------------------------------------------------
+CC0       = public domain, no attribution required.
+CC BY 4.0 = attribution required — https://creativecommons.org/licenses/by/4.0/
