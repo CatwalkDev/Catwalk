@@ -1,35 +1,30 @@
 # 🐱 Catwalk
 
-**Lock your Mac's keyboard and trackpad so your cat can walk across it — no consequences.**
+**Lock your Mac's keyboard so that your cat can walk across it without any consequences.**
 
-Catwalk lives in your menu bar as a little cat. Click it, and every keystroke, click, and
-scroll is ignored until you click it again. Your screen stays exactly where you left it —
-the video keeps playing, your work stays put — so it's perfect for the moment a cat decides
-your keyboard is the comfiest spot in the house.
+Catwalk lives in your menu bar as a little cat icon. Click it, and every keystroke, click, and
+scroll is ignored until you click the icon again. Now you can leave your video conference or vibe coding session open,
+enable Catwalk, and confidently walk away from your computer knowing that Mr. Whiskers isnt going to send
+the message "jkdsfaksfdh" to your manager.
 
 <!-- Add a screenshot here: docs/screenshot.png -->
 
-## Features
-
-- **One-click lock** from the menu bar — the cat fills in solid while it's active.
-- **Nothing gets through** — keyboard, clicks, and scrolling are all blocked.
-- **Your screen stays live** — when the cat touches something, the screen dims with a
-  spotlight on the menu-bar cat and a friendly *“Input ignored!”*, so you always know
-  what's going on.
-- **Easy to unlock** — click the cat, or press **⌃⌘L** (handy when a paw is on the trackpad).
-- **Optional sounds** — play a **Purr**, **Hiss**, **Bloop**, or **Keyboard** sound while
-  the cat is on the keys, with a volume slider. Right-click the cat to choose.
+## Optional Sounds
+You can right click the cat icon for additional sound options:
+- Bloop: Make your cat feel productive!
+- Keyboard: Make your cat feel like a great novelist!
+- Purr: Make your cat happy!
+- Hiss: Subtly tell your cat to get the f*** off of your keyboard.
 
 ## Install
-
-### Download
 Grab the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
 and drag **Catwalk** to your Applications folder. (macOS 13+, Apple Silicon or Intel.)
 
 > On first launch macOS may say it's from an unidentified developer. Right-click the app →
-> **Open** → **Open**. (Catwalk is open source and not notarized.)
+> **Open** → **Open**.
+> Accessibility permission is used for blocking the keyboard and mouse input only.
 
-### Build from source
+## Build from source
 Requires the Xcode command-line tools.
 
 ```bash
@@ -38,20 +33,6 @@ cd catwalk
 ./build.sh
 open Catwalk.app
 ```
-
-## Using it
-
-1. Click the **cat in your menu bar**.
-2. The first time, macOS asks for **Accessibility** permission — turn Catwalk on in
-   **System Settings → Privacy & Security → Accessibility**.
-3. Click the cat to **lock**. Walk away. Let the cat be a cat.
-4. **Unlock** by clicking the cat again, or pressing **⌃⌘L**.
-
-Right-click the cat for **sound** options and a **volume** slider.
-
-## Why does it need Accessibility permission?
-
-Blocking the keyboard and trackpad input only. This permission is not used for anything else.
 
 ## License
 
