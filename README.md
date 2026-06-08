@@ -19,7 +19,7 @@ You can right click the cat icon for additional sound options:
 - Hiss: Subtly tell your cat to get the f*** off of your keyboard!
 
 ## Install
-Download the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
+Download the latest **`Catwalk.app.zip`** from the [releases page](../../releases), unzip it,
 and drag **Catwalk** to your Applications folder. (macOS 13+, Apple Silicon or Intel.)
 
 On first launch macOS will say Catwalk is from an unidentified developer, and block you from opening it.
