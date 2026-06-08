@@ -9,3 +9,7 @@ Catwalk.app/
 # Python
 __pycache__/
 *.pyc
+
+# IDE / editor cruft
+.idea/
+.vscode/

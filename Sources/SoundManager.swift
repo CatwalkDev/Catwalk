@@ -147,14 +147,15 @@ final class SoundManager {
         if let hiss = hiss, hiss.isPlaying { hiss.volume = baseGain(.hiss) * masterVolume }
     }
 
-    /// One ignored key/mouse press while locked.
-    func input() {
+    /// One ignored key/mouse press while locked. `isRepeat` is true for auto-repeat
+    /// keystrokes (a held key) — Bloop/Keyboard skip those so one press = one sound.
+    func input(isRepeat: Bool = false) {
         switch current {
         case .off:   break
-        case .bloop: triggerOverlap(bloopPool, &bloopIdx, gain: baseGain(.bloop), vary: false)
-        case .click: triggerOverlap(clickPool, &clickIdx, gain: baseGain(.click), vary: true)
-        case .purr:  triggerPurr()
-        case .hiss:  break          // hiss is driven by key-held state — see setHissActive(_:)
+        case .bloop: if !isRepeat { triggerOverlap(bloopPool, &bloopIdx, gain: baseGain(.bloop), vary: false) }
+        case .click: if !isRepeat { triggerOverlap(clickPool, &clickIdx, gain: baseGain(.click), vary: true) }
+        case .purr:  triggerPurr()   // continuous — held keys keep it alive
+        case .hiss:  break           // continuous — driven by key-held state (setHissActive)
         }
     }
 

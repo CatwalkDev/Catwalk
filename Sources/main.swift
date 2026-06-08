@@ -115,17 +115,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc func toggle() { locked ? unlock() : lock() }
 
-    /// One ignored key/mouse press while locked: flash the overlay and play the chosen sound.
+    /// An ignored mouse click/scroll while locked: flash the overlay and play the sound.
     func ignoredInput() {
         OverlayController.shared.show()
         SoundManager.shared.input()
     }
 
     /// A cat key-press while locked. `suppressed` (menu open) skips the overlay/discrete
-    /// sound, but key-held tracking still runs so the Hiss loop stays accurate.
-    func keyDown(_ code: Int64, suppressed: Bool) {
+    /// sound; `isRepeat` flags auto-repeat (a held key) so the one-shot sounds fire just
+    /// once. Key-held tracking always runs so the Hiss loop stays accurate.
+    func keyDown(_ code: Int64, suppressed: Bool, isRepeat: Bool) {
         heldKeys.insert(code)
-        if !suppressed { ignoredInput() }
+        if !suppressed {
+            OverlayController.shared.show()
+            SoundManager.shared.input(isRepeat: isRepeat)
+        }
         SoundManager.shared.setHissActive(true)
     }
 
@@ -320,7 +324,8 @@ private func eventCallback(proxy: CGEventTapProxy,
                 DispatchQueue.main.async { app.unlock() }
                 return nil
             }
-            DispatchQueue.main.async { app.keyDown(code, suppressed: menuOpen) }
+            let isRepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
+            DispatchQueue.main.async { app.keyDown(code, suppressed: menuOpen, isRepeat: isRepeat) }
         } else if type == .keyUp {
             let code = event.getIntegerValueField(.keyboardEventKeycode)
             DispatchQueue.main.async { app.keyUp(code) }
