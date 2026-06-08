@@ -2,7 +2,7 @@ import Cocoa
 import AVFoundation
 
 enum CatSound: String, CaseIterable {
-    // Declaration order = the order shown in the right-click Sound menu.
+    // Declaration order is the order shown in the right-click Sound menu.
     case off, bloop, click, purr, hiss
 
     var title: String {
@@ -16,23 +16,23 @@ enum CatSound: String, CaseIterable {
     }
 }
 
-/// Plays a chosen cat sound on each ignored input while locked.
-/// All public methods must be called on the main thread.
+// Plays the chosen sound on each ignored input while locked.
+// All public methods must be called on the main thread.
 final class SoundManager {
     static let shared = SoundManager()
 
     private(set) var current: CatSound = .bloop       // default sound on first launch
     private(set) var masterVolume: Float = 0.7        // the menu slider; scales every sound
 
-    // Bloop = the soft macOS "Tink". Click = real keyboard taps (Sounds/click_*.wav);
-    // clickSystemSound is only a fallback if those recordings are missing.
+    // Bloop and the Click fallback both use the macOS system sound "Tink". The real Click
+    // is the fetched keyboard taps in Sounds/click_*.wav; Tink is only used if those are missing.
     private let clickSystemSound = "Tink"
     private let bloopSystemSound = "Tink"
 
     private var purr: AVAudioPlayer?
     private var hiss: AVAudioPlayer?             // continuous loop while any key is held
     private var bloopPool: [AVAudioPlayer] = []  // copies of one source, free overlap
-    private var clickPool: [AVAudioPlayer] = []  // varied key-tap pool, overlap + pitch jitter
+    private var clickPool: [AVAudioPlayer] = []  // varied key-tap pool, overlap plus pitch jitter
     private var bloopIdx = 0
     private var clickIdx = 0
 
@@ -44,15 +44,15 @@ final class SoundManager {
     private let kVol = "CatwalkVolume"
     private let kSound = "CatwalkSound"
 
-    /// Per-sound design level. The slider multiplies on top of these so click/bloop
-    /// stay gentle relative to a purr or hiss.
+    // Per-sound design level. The slider multiplies on top of these so click/bloop stay
+    // gentle relative to a purr or hiss.
     private func baseGain(_ s: CatSound) -> Float {
         switch s {
         case .off:   return 0
         case .bloop: return 0.5
         case .click: return 0.45
-        case .purr:  return 0.55      // 0.85 − 35%
-        case .hiss:  return 0.455     // 0.65 − 30%
+        case .purr:  return 0.55      // 0.85 minus 35%
+        case .hiss:  return 0.455     // 0.65 minus 30%
         }
     }
 
@@ -69,8 +69,8 @@ final class SoundManager {
         Bundle.main.resourceURL?.appendingPathComponent("Sounds", isDirectory: true)
     }
 
-    /// Every .wav whose name starts with `prefix`, sorted — so dropping in
-    /// hiss_5.wav / click_9.wav etc. expands the pool automatically.
+    // Every .wav whose name starts with `prefix`, sorted, so dropping in hiss_5.wav /
+    // click_9.wav etc. expands the pool automatically.
     private func files(prefix: String) -> [URL] {
         guard let dir = soundsDir(),
               let items = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
@@ -94,14 +94,14 @@ final class SoundManager {
         return p
     }
 
-    /// N copies of the first URL, so rapid presses overlap on the same sound.
+    // N copies of the first URL, so rapid presses overlap on the same sound.
     private func makePool(_ urls: [URL], copies: Int, rate: Bool = false) -> [AVAudioPlayer] {
         guard let first = urls.first else { return [] }
         return (0..<max(1, copies)).compactMap { _ in makePlayer(first, rate: rate) }
     }
 
-    /// Distinct files × N copies each (interleaved), so each press cycles through the
-    /// variations while still overlapping freely on rapid input.
+    // N copies of each distinct file (interleaved), so a press cycles through the
+    // variations while still overlapping on rapid input.
     private func makeVariedPool(_ urls: [URL], copiesEach: Int, rate: Bool) -> [AVAudioPlayer] {
         var out: [AVAudioPlayer] = []
         for _ in 0..<max(1, copiesEach) {
@@ -120,12 +120,12 @@ final class SoundManager {
             hiss?.volume = 0
         }
 
-        // Click = real keyboard taps (a varied pool); fall back to the system tick.
+        // Click is the real keyboard taps (a varied pool); fall back to the system tick.
         let clickURLs = files(prefix: "click")
         clickPool = clickURLs.isEmpty
             ? makePool([systemSound(clickSystemSound)].compactMap { $0 }, copies: 8, rate: true)
             : makeVariedPool(clickURLs, copiesEach: 3, rate: true)
-        // Bloop = soft macOS "Tink" (or a dropped-in bloop_*.wav).
+        // Bloop is the soft macOS "Tink" (or a dropped-in bloop_*.wav).
         let bloopURLs = files(prefix: "bloop").isEmpty
             ? [systemSound(bloopSystemSound)].compactMap { $0 } : files(prefix: "bloop")
         bloopPool = makePool(bloopURLs, copies: 6)
@@ -147,19 +147,19 @@ final class SoundManager {
         if let hiss = hiss, hiss.isPlaying { hiss.volume = baseGain(.hiss) * masterVolume }
     }
 
-    /// One ignored key/mouse press while locked. `isRepeat` is true for auto-repeat
-    /// keystrokes (a held key) — Bloop/Keyboard skip those so one press = one sound.
+    // One ignored key or mouse press while locked. `isRepeat` is true for auto-repeat
+    // keystrokes (a held key); Bloop/Keyboard skip those so one press is one sound.
     func input(isRepeat: Bool = false) {
         switch current {
         case .off:   break
         case .bloop: if !isRepeat { triggerOverlap(bloopPool, &bloopIdx, gain: baseGain(.bloop), vary: false) }
         case .click: if !isRepeat { triggerOverlap(clickPool, &clickIdx, gain: baseGain(.click), vary: true) }
-        case .purr:  triggerPurr()   // continuous — held keys keep it alive
-        case .hiss:  break           // continuous — driven by key-held state (setHissActive)
+        case .purr:  triggerPurr()   // continuous; held keys keep it alive
+        case .hiss:  break           // continuous; driven by key-held state (setHissActive)
         }
     }
 
-    /// Called on unlock — let one-shots ring out, but stop the continuous loops.
+    // Called on unlock: let one-shots ring out, but stop the continuous loops.
     func stopAll() { stopPurr(immediate: false); stopHiss(immediate: false) }
 
     // MARK: - Purr (continuous loop, fade in / sustain / fade out)
@@ -203,8 +203,8 @@ final class SoundManager {
 
     // MARK: - Hiss (continuous loop while any key is held)
 
-    /// Driven by the "is any key currently down?" state from the event tap. When the last
-    /// key lifts, the hiss keeps going for 0.8s before fading out (a new key cancels it).
+    // Driven by the "is any key currently down?" state from the event tap. When the last
+    // key lifts, the hiss keeps going for 0.8s before fading out (a new key cancels it).
     func setHissActive(_ active: Bool) {
         guard current == .hiss, let hiss = hiss else { return }
         if active {
@@ -241,7 +241,7 @@ final class SoundManager {
 
     // MARK: - One-shots
 
-    /// Bloop / Click: round-robin a copy pool so rapid presses overlap.
+    // Bloop / Click: round-robin a copy pool so rapid presses overlap.
     private func triggerOverlap(_ pool: [AVAudioPlayer], _ idx: inout Int, gain: Float, vary: Bool) {
         guard !pool.isEmpty else { return }
         let p = pool[idx % pool.count]; idx += 1

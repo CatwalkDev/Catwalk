@@ -36,5 +36,4 @@ open Catwalk.app
 
 ## License
 
-Code is released under the [MIT License](LICENSE). Bundled audio keeps its own licenses
-(see credits above).
+Code is released under the [MIT License](LICENSE).

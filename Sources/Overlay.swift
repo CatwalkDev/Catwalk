@@ -1,9 +1,9 @@
 import Cocoa
 
-/// Click-through overlay shown while locked. Dims **every** monitor with a dark scrim and
-/// the "Input ignored!" cat message; the monitor holding the menu-bar cat additionally gets
-/// a spotlight cut around the icon plus the arrow / "Click here to disable". Fades out 5s
-/// after the last ignored input.
+// Click-through overlay shown while locked. Dims every monitor with a dark scrim and the
+// "Input ignored!" cat message. The monitor with the menu-bar cat also gets a spotlight cut
+// around the icon plus the arrow and "Click here to disable". Fades out 5s after the last
+// ignored input.
 final class OverlayController {
     static let shared = OverlayController()
 
@@ -136,8 +136,8 @@ private final class OverlayView: NSView {
     }
 
     private func styleContents() {
-        scrim.fillColor = NSColor(white: 0, alpha: 0.62).cgColor   // dim the whole screen…
-        scrim.fillRule = .evenOdd                                  // …except the cut-out hole
+        scrim.fillColor = NSColor(white: 0, alpha: 0.62).cgColor   // dim the whole screen
+        scrim.fillRule = .evenOdd                                  // except the cut-out hole
 
         spot.fillColor = NSColor.clear.cgColor
         spot.strokeColor = NSColor(white: 1, alpha: 0.30).cgColor

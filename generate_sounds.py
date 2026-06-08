@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Procedural Purr + Hiss for Catwalk — both seamless loops. Pure stdlib → 16-bit mono
-WAVs in ./Sounds. (Bloop uses a macOS system sound; the Keyboard sound comes from
-fetch_clicks.py. Drop in your own purr.wav / hiss.wav to replace these.)"""
+"""Generates the procedural Purr and Hiss loops into ./Sounds (pure stdlib, 16-bit mono
+WAVs). Bloop uses a macOS system sound; the Keyboard sound comes from fetch_clicks.py.
+Drop in your own purr.wav / hiss.wav to replace these."""
 import wave, struct, math, random, os, glob
 
 SR = 44100
@@ -67,14 +67,14 @@ def make_hiss_loop():
     sib  = lowpass(highpass(white(n), 3200), 8500)    # sibilance
     body = lowpass(highpass(white(n), 700), 2600)     # airy body
     mix = [0.85 * sib[i] + 0.5 * body[i] for i in range(n)]
-    # breathy flutter — a slow smoothed-random gain wobble (the "spit" texture)
+    # breathy flutter: a slow smoothed-random gain wobble (the "spit" texture)
     flut = [0.0] * n; v = 0.0
     for i in range(n):
         v += (random.uniform(-1, 1) - v) * 0.02
         flut[i] = v
     fp = max(1e-9, max(abs(x) for x in flut))
     flut = [0.72 + 0.28 * (x / fp) for x in flut]
-    out = [mix[i] * flut[i] for i in range(n)]        # constant level — no attack/decay
+    out = [mix[i] * flut[i] for i in range(n)]        # constant level, no attack/decay
     final = out[:Ls]
     for i in range(cfs):                              # crossfade the tail into the head
         t = i / cfs
@@ -84,8 +84,8 @@ def make_hiss_loop():
 d = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Sounds')
 os.makedirs(d, exist_ok=True)
 
-# The old numbered hiss pool is replaced by a single seamless loop — clear it out.
-# (We deliberately do NOT touch click_*.wav — those are the real fetched keyboard taps.)
+# Old numbered hiss pool is replaced by a single seamless loop; clear it.
+# (Leave click_*.wav alone; those are the fetched keyboard taps.)
 for stale in glob.glob(os.path.join(d, 'hiss_*.wav')):
     os.remove(stale)
 

@@ -87,6 +87,6 @@ for a, b in pick:
 cp = os.path.join(SND, 'CREDITS.txt')
 prev = open(cp).read() if os.path.exists(cp) else ""
 with open(cp, 'w') as f:
-    f.write(prev.rstrip() + f"\n\nClick (real keyboard taps):\n- {c['title']} — {c['lic']}"
-            + (f" — {c['art']}" if c['art'] else "") + "\n")
+    f.write(prev.rstrip() + f"\n\nKeyboard taps:\n- {c['title']}, {c['lic']}"
+            + (f", {c['art']}" if c['art'] else "") + "\n")
 print(f"\nTotal key taps: {idx - 1}")
