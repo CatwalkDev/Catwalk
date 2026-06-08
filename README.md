@@ -24,7 +24,7 @@ and drag **Catwalk** to your Applications folder. (macOS 13+, Apple Silicon or I
 
 On first launch macOS will say Catwalk is from an unidentified developer, and block you from opening it.
 Instructions on how to open it anyways are [here](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
-> Accessibility permission is used for blocking the keyboard and mouse input only.
+> Note: Accessibility permission is used for blocking the keyboard and mouse input only.
 
 ## Build from source
 Requires the Xcode command-line tools.
