@@ -51,22 +51,9 @@ Right-click the cat for **sound** options and a **volume** slider.
 
 ## Why does it need Accessibility permission?
 
-Blocking the keyboard and trackpad requires a system-level input tap, and macOS keeps that
-behind the Accessibility permission. Catwalk uses it for one thing only: ignoring input
-while locked. Nothing is recorded, sent, or stored — and the whole source is right here for
-you to read.
-
-## Credits
-
-Bundled sounds come from Wikimedia Commons and procedural synthesis — see
-[`Sounds/CREDITS.txt`](Sounds/CREDITS.txt). The keyboard-tap sound is © its author under
-CC BY 4.0.
+Blocking the keyboard and trackpad input only. This permission is not used for anything else.
 
 ## License
 
 Code is released under the [MIT License](LICENSE). Bundled audio keeps its own licenses
 (see credits above).
-
----
-
-Made with 🐾 for cats and the people who love them.
