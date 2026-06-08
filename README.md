@@ -2,12 +2,14 @@
 
 **Lock your Mac's keyboard so that your cat can walk across it without any consequences.**
 
+<img width="303" height="31" alt="image" src="https://github.com/user-attachments/assets/4e9afd09-40b9-42bc-a579-4eb9c8a892ca" />
+
 Catwalk lives in your menu bar as a little cat icon. Click it, and every keystroke, click, and
 scroll is ignored until you click the icon again. Now you can leave your video conference or vibe coding session open,
 enable Catwalk, and confidently walk away from your computer knowing that Mr. Whiskers isnt going to send
 the message "jkdsfaksfdh" to your manager.
 
-<!-- Add a screenshot here: docs/screenshot.png -->
+<img width="1728" height="1117" alt="Screenshot1" src="https://github.com/user-attachments/assets/771a2392-142a-4c93-8593-344b57e18173" />
 
 ## Optional Sounds
 You can right click the cat icon for additional sound options:
@@ -17,7 +19,7 @@ You can right click the cat icon for additional sound options:
 - Hiss: Subtly tell your cat to get the f*** off of your keyboard!
 
 ## Install
-Grab the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
+Download the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
 and drag **Catwalk** to your Applications folder. (macOS 13+, Apple Silicon or Intel.)
 
 > On first launch macOS may say it's from an unidentified developer. Right-click the app →
