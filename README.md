@@ -14,7 +14,7 @@ You can right click the cat icon for additional sound options:
 - Bloop: Make your cat feel productive!
 - Keyboard: Make your cat feel like a great novelist!
 - Purr: Make your cat happy!
-- Hiss: Subtly tell your cat to get the f*** off of your keyboard.
+- Hiss: Subtly tell your cat to get the f*** off of your keyboard!
 
 ## Install
 Grab the latest **`Catwalk.app.zip`** from the [Releases page](../../releases), unzip it,
