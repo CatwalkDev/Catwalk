@@ -4,6 +4,7 @@
 import Cocoa
 import CoreGraphics
 import ApplicationServices
+import ServiceManagement
 
 // ⌃⌘L is the fail-safe unlock combo. 37 == kVK_ANSI_L.
 private let unlockKeycode: Int64 = 37
@@ -93,6 +94,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         menu.addItem(.separator())
 
+        let launchItem = NSMenuItem(title: "Open at Login", action: #selector(toggleOpenAtLogin), keyEquivalent: "")
+        launchItem.target = self
+        launchItem.state = (SMAppService.mainApp.status == .enabled) ? .on : .off
+        menu.addItem(launchItem)
+
+        menu.addItem(.separator())
+
         let hint = NSMenuItem(title: "Fail-safe unlock:  ⌃⌘L", action: nil, keyEquivalent: "")
         hint.isEnabled = false
         menu.addItem(hint)
@@ -177,6 +185,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func volumeChanged(_ sender: NSSlider) {
         SoundManager.shared.setMasterVolume(Float(sender.doubleValue))
+    }
+
+    @objc private func toggleOpenAtLogin() {
+        do {
+            if SMAppService.mainApp.status == .enabled {
+                try SMAppService.mainApp.unregister()
+            } else {
+                try SMAppService.mainApp.register()
+            }
+        } catch {
+            warn("Couldn't update Open at Login.\n\n\(error.localizedDescription)")
+        }
     }
 
     func lock() {
